@@ -4,26 +4,26 @@ const history = require("connect-history-api-fallback");
 const upload = require("express-fileupload");
 const fs = require("fs");
 const app = express();
-const { exec } = require("child_process");
+// const { exec } = require("child_process");
 
-const axios = require("axios");
-axios.defaults.headers.post["Content-Type"] = "application/json";
+// const axios = require("axios");
+// axios.defaults.headers.post["Content-Type"] = "application/json";
 
-let private_key = "SCT2C22KSURLOXBEQJFQN6APITKIXUUSZLCMYWLZ6K735QODLPKYVR7R";
-let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
-let apiUrl = "https://api.munahealth.com";
-let apiTestUrl = "https://api.staging.munahealth.com";
+// let private_key = "SCT2C22KSURLOXBEQJFQN6APITKIXUUSZLCMYWLZ6K735QODLPKYVR7R";
+// let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
+// let apiUrl = "https://api.munahealth.com";
+// let apiTestUrl = "https://api.staging.munahealth.com";
 
-exec(
-   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
-   (error, stdout, stderr) => {
-      console.log(stdout);
-      console.log(stderr);
-      if (error !== null) {
-         console.log(`exec error: ${error}`);
-      }
-   }
-);
+// exec(
+//    `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
+//    (error, stdout, stderr) => {
+//       console.log(stdout);
+//       console.log(stderr);
+//       if (error !== null) {
+//          console.log(`exec error: ${error}`);
+//       }
+//    }
+// );
 
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));

@@ -10,14 +10,10 @@ exports.create = (req, res) => {
    const patientResult = new PatientResult({
       testId: req.body.testId,
       patientTestId: req.body.patientTestId,
-      requested: req.body.requested
-         ? req.body.requested
-         : "0000-00-00 00:00:00",
-      collected: req.body.collected
-         ? req.body.collected
-         : "0000-00-00 00:00:00",
-      received: req.body.received ? req.body.received : "0000-00-00 00:00:00",
-      perform: req.body.perform ? req.body.perform : "0000-00-00 00:00:00",
+      requested: req.body.requested,
+      collected: req.body.collected,
+      received: req.body.received,
+      perform: req.body.perform,
       result: req.body.result,
       quantity: req.body.quantity,
       price: req.body.price,

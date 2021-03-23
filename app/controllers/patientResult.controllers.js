@@ -9,6 +9,7 @@ exports.create = (req, res) => {
 
    const patientResult = new PatientResult({
       testId: req.body.testId,
+      patientTestId: req.body.patientTestId,
       requested: req.body.requested
          ? req.body.requested
          : "0000-00-00 00:00:00	",

@@ -7,6 +7,8 @@ module.exports = (app) => {
 
    app.get("/api/patientTest/:id", patientTest.findOne);
 
+   app.get("/api/patientTestId/:id", patientTest.findByPatientId);
+
    app.put("/api/patientTest/:id", patientTest.update);
 
    app.delete("/api/patientTest/:id", patientTest.delete);

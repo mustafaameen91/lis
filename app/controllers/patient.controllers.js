@@ -50,6 +50,7 @@ exports.create = (req, res) => {
             documentId: patientData.documentId,
             smoker: patientData.smoker,
             fasting: patientData.fasting,
+            createdBy: patientData.createdBy,
          });
 
          Patient.create(patient, (err, data) => {

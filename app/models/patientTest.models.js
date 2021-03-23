@@ -2,8 +2,7 @@ const sql = require("./db.js");
 
 const PatientTest = function (patientTest) {
    this.patientId = patientTest.patientId;
-   this.testId = patientTest.testId;
-   this.providerId = patientTest.providerId;
+   this.createdBy = patientTest.createdBy;
 };
 
 PatientTest.create = (newPatientTest, result) => {
@@ -15,11 +14,39 @@ PatientTest.create = (newPatientTest, result) => {
       }
 
       console.log("created patientTest: ", {
-         id: res.insertId,
+         idPatientTest: res.insertId,
          ...newPatientTest,
       });
       result(null, { id: res.insertId, ...newPatientTest });
    });
+};
+
+PatientTest.getByPatientId = (patientId, result) => {
+   sql.query(
+      `SELECT * FROM patientTest WHERE patientId = ${patientId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         if (res.length) {
+            sql.query(`SELECT * FROM patientResult`, (err, resResult) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(err, null);
+                  return;
+               }
+               console.log("found patientResult: ", resResult);
+               result(null, { tests: res, results: resResult });
+            });
+            return;
+         }
+
+         result({ kind: "not_found" }, null);
+      }
+   );
 };
 
 PatientTest.findById = (patientTestId, result) => {

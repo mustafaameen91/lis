@@ -15,6 +15,7 @@ const Patient = function (patient) {
    this.documentId = patient.documentId;
    this.smoker = patient.smoker;
    this.fasting = patient.fasting;
+   this.createdBy = patient.createdBy;
 };
 
 Patient.create = (newPatient, result) => {

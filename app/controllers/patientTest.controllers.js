@@ -9,7 +9,7 @@ exports.create = (req, res) => {
 
    const patientTest = new PatientTest({
       patientId: req.body.patientId,
-      providerId: req.body.providerId,
+      createdBy: req.body.createdBy,
    });
 
    PatientTest.create(patientTest, (err, data) => {
@@ -32,6 +32,35 @@ exports.findAll = (req, res) => {
                "Some error occurred while retrieving patientTest.",
          });
       else res.send(data);
+   });
+};
+
+exports.findByPatientId = (req, res) => {
+   PatientTest.getByPatientId(req.params.id, (err, data) => {
+      if (err) {
+         if (err.kind === "not_found") {
+            res.status(404).send({
+               message: `Not found patientTest with id ${req.params.id}.`,
+            });
+         } else {
+            res.status(500).send({
+               message: "Error retrieving patientTest with id " + req.params.id,
+            });
+         }
+      } else
+         res.send(
+            data.tests.map((test) => {
+               return {
+                  idPatientTest: test.idPatientTest,
+                  patientId: test.patientId,
+                  createdAt: test.createdAt,
+                  createdBy: test.createdBy,
+                  results: data.results.filter(
+                     (result) => result.patientTestId == test.idPatientTest
+                  ),
+               };
+            })
+         );
    });
 };
 

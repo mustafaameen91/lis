@@ -2,6 +2,7 @@ const sql = require("./db.js");
 
 const PatientResult = function (patientResult) {
    this.testId = patientResult.testId;
+   this.patientTestId = patientResult.patientTestId;
    this.requested = patientResult.requested;
    this.collected = patientResult.collected;
    this.received = patientResult.received;

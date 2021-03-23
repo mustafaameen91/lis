@@ -4,7 +4,7 @@ const history = require("connect-history-api-fallback");
 const upload = require("express-fileupload");
 const fs = require("fs");
 const app = express();
-// const { exec } = require("child_process");
+const { exec } = require("child_process");
 
 // const axios = require("axios");
 // axios.defaults.headers.post["Content-Type"] = "application/json";

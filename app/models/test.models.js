@@ -22,6 +22,123 @@ Test.create = (newTest, result) => {
    });
 };
 
+Test.createOptionTest = (newTest, result) => {
+   sql.query(
+      "INSERT INTO test SET testName = ? , fixed = ? , price = ?",
+      [newTest.testName, newTest.fixed, newTest.price],
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+         console.log("created test: ", {
+            id: res.insertId,
+            ...newTest,
+         });
+
+         sql.query(
+            `INSERT INTO testOptions (testId , optionName) VALUES ?`,
+            [newTest.options.map((option) => [res.insertId, option])],
+            (err, resOptions) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(err, null);
+                  return;
+               }
+               console.log("created test: ", resOptions);
+
+               result(null, { id: res.insertId, ...newTest });
+            }
+         );
+      }
+   );
+};
+
+Test.createNewTest = (newTest, result) => {
+   sql.query(
+      "INSERT INTO test SET testName = ? , fixed = ? , price = ?",
+      [newTest.testName, newTest.fixed, newTest.price],
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+         console.log("created test: ", {
+            id: res.insertId,
+            ...newTest,
+         });
+
+         sql.query(
+            `INSERT INTO testRange (testId , fromAge , toAge , normalFrom , normalTo) VALUES ?`,
+            [
+               newTest.options.map((range) => [
+                  res.insertId,
+                  range.ageFrom,
+                  range.ageTo,
+                  range.normalFrom,
+                  range.normalTo,
+               ]),
+            ],
+            (err, resOptions) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(err, null);
+                  return;
+               }
+               console.log("created test: ", resOptions);
+
+               result(null, { id: res.insertId, ...newTest });
+            }
+         );
+      }
+   );
+};
+
+Test.findByIdTest = (testId, result) => {
+   sql.query(`SELECT * FROM test WHERE idTest = ${testId}`, (err, res) => {
+      if (err) {
+         console.log("error: ", err);
+         result(err, null);
+         return;
+      }
+
+      if (res.length) {
+         console.log("found test: ", res[0]);
+
+         if (res[0].fixed == 1) {
+            sql.query(
+               `SELECT * FROM testOptions WHERE testId = ${testId}`,
+               (err, resOption) => {
+                  if (err) {
+                     console.log("error: ", err);
+                     result(err, null);
+                     return;
+                  }
+                  result(null, { ...res[0], options: resOption });
+               }
+            );
+         } else {
+            sql.query(
+               `SELECT * FROM testRange WHERE testId = ${testId}`,
+               (err, resRange) => {
+                  if (err) {
+                     console.log("error: ", err);
+                     result(err, null);
+                     return;
+                  }
+                  result(null, { ...res[0], options: resRange });
+               }
+            );
+         }
+         return;
+      }
+
+      result({ kind: "not_found" }, null);
+   });
+};
+
 Test.findById = (testId, result) => {
    sql.query(`SELECT * FROM test WHERE idTest = ${testId}`, (err, res) => {
       if (err) {
@@ -47,11 +164,17 @@ Test.getAll = (result) => {
          result(null, err);
          return;
       } else {
-         sql.query("SELECT * FROM test", (err, resRange) => {
+         sql.query("SELECT * FROM testRange", (err, resRange) => {
             if (err) {
+               console.log("error: ", err);
+               result(null, err);
+               return;
             } else {
-               sql.query("SELECT * FROM test", (err, resOptions) => {
+               sql.query("SELECT * FROM testOptions", (err, resOptions) => {
                   if (err) {
+                     console.log("error: ", err);
+                     result(null, err);
+                     return;
                   } else {
                      console.log("tests: ", res);
                      result(null, {

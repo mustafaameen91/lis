@@ -4,7 +4,8 @@ const TestRange = function (testRange) {
    this.testId = testRange.testId;
    this.fromAge = testRange.fromAge;
    this.toAge = testRange.toAge;
-   this.normalValue = testRange.normalValue;
+   this.normalFrom = testRange.normalFrom;
+   this.normalTo = testRange.normalTo;
 };
 
 TestRange.create = (newTestRange, result) => {

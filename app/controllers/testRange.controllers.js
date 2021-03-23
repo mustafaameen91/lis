@@ -11,7 +11,8 @@ exports.create = (req, res) => {
       testId: req.body.testId,
       fromAge: req.body.fromAge,
       toAge: req.body.toAge,
-      normalValue: req.body.normalValue,
+      normalFrom: req.body.normalFrom,
+      normalTo: req.body.normalTo,
    });
 
    TestRange.create(testRange, (err, data) => {

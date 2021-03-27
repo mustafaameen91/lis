@@ -64,5 +64,5 @@ docker rm --force tokend-hgate || true
 docker run -d --name tokend-hgate \
   --env KV_VIPER_FILE=/config.yaml \
   --volume "$(pwd)/${config}":/config.yaml \
-  --publish "${address:-"0.0.0.0:5555"}:80" \
+  --publish "${address:-"127.0.0.1:5555"}:80" \
   tokend/hgate:1.1.9-m run

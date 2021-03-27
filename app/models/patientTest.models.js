@@ -85,8 +85,8 @@ PatientTest.getAll = (result) => {
 
 PatientTest.updateById = (id, patientTest, result) => {
    sql.query(
-      "UPDATE patientTest SET patientId = ? ,  providerId = ?   WHERE idPatientTest = ?",
-      [patientTest.patientId, patientTest.providerId, id],
+      "UPDATE patientTest SET patientId = ? ,  createdBy = ?   WHERE idPatientTest = ?",
+      [patientTest.patientId, patientTest.createdBy, id],
       (err, res) => {
          if (err) {
             console.log("error: ", err);
@@ -120,9 +120,23 @@ PatientTest.remove = (id, result) => {
             result({ kind: "not_found" }, null);
             return;
          }
+         sql.query(
+            `DELETE FROM patientResult WHERE patientTestId = ${id}`,
+            (err, resResult) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(null, err);
+                  return;
+               }
 
-         console.log("deleted patientTest with id: ", id);
-         result(null, res);
+               if (res.affectedRows == 0) {
+                  result({ kind: "not_found" }, null);
+                  return;
+               }
+               console.log("deleted patientTest with id: ", id);
+               result(null, res);
+            }
+         );
       }
    );
 };

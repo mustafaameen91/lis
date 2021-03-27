@@ -7,9 +7,15 @@ module.exports = (app) => {
 
    app.get("/api/patients", patient.findPatientInformation);
 
+   app.get("/api/patientTest", patient.findTestPhoto);
+
    app.get("/api/patient/:id", patient.findOne);
 
    app.put("/api/patient/:id", patient.update);
+
+   app.put("/api/patientCertificate/:id", patient.updateForCertificate);
+
+   app.put("/api/patientMunaId/:id", patient.updateForMunaId);
 
    app.delete("/api/patient/:id", patient.delete);
 

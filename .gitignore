@@ -2,5 +2,4 @@
 .dockerignore
 .hgate.yaml
 Dockerfile
-HGate-start.sh
 package-lock.json

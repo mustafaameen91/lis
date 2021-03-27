@@ -1,10 +1,9 @@
 const sql = require("./db.js");
 
-// function formatData(){}
-
 const Patient = function (patient) {
    this.name = patient.name;
    this.enName = patient.enName;
+   this.email = patient.email;
    this.gender = patient.gender;
    this.dob = patient.dob;
    this.phone = patient.phone;
@@ -15,6 +14,8 @@ const Patient = function (patient) {
    this.documentId = patient.documentId;
    this.smoker = patient.smoker;
    this.fasting = patient.fasting;
+   this.munaId = patient.munaId;
+   this.certificateNo = patient.certificateNo;
    this.createdBy = patient.createdBy;
 };
 
@@ -36,7 +37,7 @@ Patient.create = (newPatient, result) => {
 
 Patient.findById = (patientId, result) => {
    sql.query(
-      `SELECT * FROM patient LEFT JOIN photo ON photo.patientId = patient.idPatient WHERE patient.idPatient = ${patientId}`,
+      `SELECT * FROM patient JOIN nationality LEFT JOIN photo ON photo.patientId = patient.idPatient AND nationality.idNationality = patient.nationalityId WHERE patient.idPatient = ${patientId}`,
       (err, res) => {
          if (err) {
             console.log("error: ", err);
@@ -63,27 +64,30 @@ Patient.findAllPatientData = (numPerPage, limit, result) => {
       } else {
          var numRows = rows[0].numRows;
          var numPages = Math.ceil(numRows / numPerPage);
-         sql.query(`SELECT * FROM patient LIMIT ${limit}`, (err, res) => {
-            if (err) {
-               console.log("error: ", err);
-               result(null, err);
-               return;
-            } else {
-               sql.query("SELECT * FROM photo", (err, resPhoto) => {
-                  if (err) {
-                     console.log("error: ", err);
-                     result(null, err);
-                     return;
-                  }
-                  result(null, {
-                     patients: res,
-                     photos: resPhoto,
-                     num: numPages,
-                     total: numRows,
+         sql.query(
+            `SELECT * FROM patient JOIN nationality ON nationality.idNationality = patient.nationalityId LIMIT ${limit}`,
+            (err, res) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(null, err);
+                  return;
+               } else {
+                  sql.query("SELECT * FROM photo", (err, resPhoto) => {
+                     if (err) {
+                        console.log("error: ", err);
+                        result(null, err);
+                        return;
+                     }
+                     result(null, {
+                        patients: res,
+                        photos: resPhoto,
+                        num: numPages,
+                        total: numRows,
+                     });
                   });
-               });
+               }
             }
-         });
+         );
       }
    });
 };
@@ -140,6 +144,56 @@ Patient.updateById = (id, patient, result) => {
 
          console.log("updated patient: ", { id: id, ...patient });
          result(null, { id: id, ...patient });
+      }
+   );
+};
+
+Patient.updateMunaCertificate = (id, certificateNo, result) => {
+   sql.query(
+      "UPDATE patient SET certificateNo = ?  WHERE idPatient = ?",
+      [certificateNo, id],
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+         }
+
+         if (res.affectedRows == 0) {
+            result({ kind: "not_found" }, null);
+            return;
+         }
+
+         console.log("updated patient: ", {
+            id: id,
+            certificateNo: certificateNo,
+         });
+         result(null, { id: id, certificateNo: certificateNo });
+      }
+   );
+};
+
+Patient.updateMunaId = (id, munaId, result) => {
+   sql.query(
+      "UPDATE patient SET munaId = ?  WHERE idPatient = ?",
+      [munaId, id],
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+         }
+
+         if (res.affectedRows == 0) {
+            result({ kind: "not_found" }, null);
+            return;
+         }
+
+         console.log("updated patient: ", {
+            id: id,
+            munaId: munaId,
+         });
+         result(null, { id: id, munaId: munaId });
       }
    );
 };

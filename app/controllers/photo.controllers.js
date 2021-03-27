@@ -37,6 +37,7 @@ exports.create = (req, res) => {
                const photo = new Photo({
                   photoPath: `image/${photoName}.${ext}`,
                   patientId: req.body.patientId,
+                  photoType: req.body.photoType,
                });
                Photo.create(photo, (err, data) => {
                   if (err)

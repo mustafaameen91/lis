@@ -1,6 +1,11 @@
 const Patient = require("../models/patient.models.js");
 const Photo = require("../models/photo.models.js");
 const directory = require("./../../server");
+const createReport = require("docx-templates");
+const fs = require("fs");
+
+const bwipjs = require("bwip-js");
+const path = require("path");
 
 function generateRandomName(length, patientId) {
    var result = "";
@@ -33,6 +38,7 @@ exports.create = (req, res) => {
          message: "Content can not be empty!",
       });
    }
+   console.log(req.body);
    let patientData = JSON.parse(req.body.patient);
 
    Patient.findByDocumentId(req.body.patient.documentId, (err, data) => {
@@ -40,6 +46,7 @@ exports.create = (req, res) => {
          const patient = new Patient({
             name: patientData.name,
             enName: patientData.enName,
+            email: patientData.email,
             gender: patientData.gender,
             dob: patientData.dob,
             phone: patientData.phone,
@@ -50,6 +57,8 @@ exports.create = (req, res) => {
             documentId: patientData.documentId,
             smoker: patientData.smoker,
             fasting: patientData.fasting,
+            munaId: patientData.munaId,
+            certificateNo: patientData.certificateNo,
             createdBy: patientData.createdBy,
          });
 
@@ -178,6 +187,64 @@ exports.findAll = (req, res) => {
    });
 };
 
+exports.findTestPhoto = async (req, res) => {
+   try {
+      bwipjs.toBuffer(
+         {
+            bcid: "qrcode",
+            text: "http://google.com",
+            scale: 3,
+            height: 10,
+            includetext: false,
+            textxalign: "center",
+         },
+         async function (err, png) {
+            if (err) {
+               console.log(err);
+            } else {
+               const template = fs.readFileSync(
+                  path.join(__dirname, "covid.docx")
+               );
+
+               const buffer = await createReport.createReport({
+                  template,
+                  data: {
+                     name: "mohammed",
+                     enName: "Ahmed",
+                     gender: "male",
+                     testId: 123,
+                     documentId: "A1234",
+                     testDate: "1/1/2020",
+                     nationality: "iraqi",
+                     result: "positive",
+                     project: {
+                        url: Buffer.from(png).toString("base64"),
+                     },
+                  },
+                  additionalJsContext: {
+                     qrCode: (url) => {
+                        const dataUrl =
+                           "data:image/png;base64," +
+                           Buffer.from(png).toString("base64");
+                        const data = dataUrl.slice(
+                           "data:image/png;base64,".length
+                        );
+                        return { width: 2, height: 2, data, extension: ".png" };
+                     },
+                  },
+               });
+
+               fs.writeFileSync("report2.docx", buffer);
+            }
+         }
+      );
+   } catch (e) {
+      console.log(e);
+   }
+
+   res.send({ message: "ok" });
+};
+
 exports.findOne = (req, res) => {
    Patient.findById(req.params.id, (err, data) => {
       if (err) {
@@ -194,6 +261,7 @@ exports.findOne = (req, res) => {
          res.send({
             name: data[0].name,
             enName: data[0].enName,
+            email: data[0].email,
             gender: data[0].gender,
             dob: data[0].dob,
             phone: data[0].phone,
@@ -201,9 +269,12 @@ exports.findOne = (req, res) => {
             height: data[0].height,
             relationship: data[0].relationship,
             nationalityId: data[0].nationalityId,
+            nationalName: data[0].nationalName,
             documentId: data[0].documentId,
             smoker: data[0].smoker,
             fasting: data[0].fasting,
+            munaId: data[0].munaId,
+            certificateNo: data[0].certificateNo,
             createdAt: data[0].createdAt,
             documentPhoto: extractData(
                data.filter((photo) => photo.photoType == 1)[0]
@@ -230,6 +301,7 @@ exports.findPatientInformation = (req, res) => {
             idPatient: pat.idPatient,
             name: pat.name,
             enName: pat.enName,
+            email: pat.email,
             gender: pat.gender,
             dob: pat.dob,
             phone: pat.phone,
@@ -237,9 +309,12 @@ exports.findPatientInformation = (req, res) => {
             height: pat.height,
             relationship: pat.relationship,
             nationalityId: pat.nationalityId,
+            nationalName: pat.nationalName,
             documentId: pat.documentId,
             smoker: pat.smoker,
             fasting: pat.fasting,
+            munaId: pat.munaId,
+            certificateNo: pat.certificateNo,
             createdAt: pat.createdAt,
             documentPhoto: data.photos.filter(
                (photo) =>
@@ -257,6 +332,54 @@ exports.findPatientInformation = (req, res) => {
          patients: patients,
       });
    });
+};
+
+exports.updateForMunaId = (req, res) => {
+   if (!req.body) {
+      res.status(400).send({
+         message: "Content can not be empty!",
+      });
+   }
+
+   Patient.updateMunaId(req.params.id, req.body.munaId, (err, data) => {
+      if (err) {
+         if (err.kind === "not_found") {
+            res.status(404).send({
+               message: `Not found patient with id ${req.params.id}.`,
+            });
+         } else {
+            res.status(500).send({
+               message: "Error updating patient with id " + req.params.id,
+            });
+         }
+      } else res.send(data);
+   });
+};
+
+exports.updateForCertificate = (req, res) => {
+   if (!req.body) {
+      res.status(400).send({
+         message: "Content can not be empty!",
+      });
+   }
+
+   Patient.updateMunaCertificate(
+      req.params.id,
+      req.body.certificateNo,
+      (err, data) => {
+         if (err) {
+            if (err.kind === "not_found") {
+               res.status(404).send({
+                  message: `Not found patient with id ${req.params.id}.`,
+               });
+            } else {
+               res.status(500).send({
+                  message: "Error updating patient with id " + req.params.id,
+               });
+            }
+         } else res.send(data);
+      }
+   );
 };
 
 exports.update = (req, res) => {

@@ -3,6 +3,7 @@ const sql = require("./db.js");
 const Photo = function (photo) {
    this.photoPath = photo.photoPath;
    this.patientId = photo.patientId;
+   this.photoType = photo.photoType;
 };
 
 Photo.create = (newPhoto, result) => {

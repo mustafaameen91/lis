@@ -49,6 +49,27 @@ PatientTest.getByPatientId = (patientId, result) => {
    );
 };
 
+PatientTest.getBetweenTwoDates = (dateOne, DateTwo, testId, result) => {
+   sql.query(
+      `SELECT * FROM patientResult JOIN patientTest JOIN test JOIN patient ON patientTest.idPatientTest = patientResult.patientTestId AND test.idTest = patientResult.testId AND patient.idPatient = patientTest.patientId WHERE (DATE(patientResult.requested) BETWEEN DATE('${dateOne}') AND DATE('${DateTwo}')) AND ${testId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         if (res.length) {
+            console.log("found patientResult: ", res);
+            result(null, res);
+            return;
+         }
+
+         result({ kind: "not_found" }, null);
+      }
+   );
+};
+
 PatientTest.findById = (patientTestId, result) => {
    sql.query(
       `SELECT * FROM patientTest WHERE idPatientTest = ${patientTestId}`,

@@ -64,6 +64,35 @@ exports.findByPatientId = (req, res) => {
    });
 };
 
+exports.findBetweenTwoDates = (req, res) => {
+   let queryTest = "";
+   if (req.query.testId == 0) {
+      queryTest += "1=1";
+   } else {
+      queryTest += `testId = ${req.query.testId}`;
+   }
+   PatientTest.getBetweenTwoDates(
+      req.query.dateOne,
+      req.query.dateTwo,
+      queryTest,
+      (err, data) => {
+         if (err) {
+            if (err.kind === "not_found") {
+               res.status(404).send({
+                  message: `Not found patientTest with date ${req.query.dateOne}.`,
+               });
+            } else {
+               res.status(500).send({
+                  message:
+                     "Error retrieving patientTest with date " +
+                     req.query.dateOne,
+               });
+            }
+         } else res.send(data);
+      }
+   );
+};
+
 exports.findOne = (req, res) => {
    PatientTest.findById(req.params.id, (err, data) => {
       if (err) {

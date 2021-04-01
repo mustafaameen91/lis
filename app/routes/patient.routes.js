@@ -7,7 +7,7 @@ module.exports = (app) => {
 
    app.get("/api/patients", patient.findPatientInformation);
 
-   app.get("/api/patientTest", patient.findTestPhoto);
+   app.post("/api/certificateResult", patient.findTestPhoto);
 
    app.get("/api/patient/:id", patient.findOne);
 

@@ -6,16 +6,18 @@ const fs = require("fs");
 const app = express();
 const { exec } = require("child_process");
 
-// const axios = require("axios");
-// axios.defaults.headers.post["Content-Type"] = "application/json";
+app.use(cors());
+app.use(express.json({ limit: "50mb" }));
 
 let private_key = "SCT2C22KSURLOXBEQJFQN6APITKIXUUSZLCMYWLZ6K735QODLPKYVR7R";
 let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
 let apiUrl = "https://api.munahealth.com";
 let apiTestUrl = "https://api.staging.munahealth.com";
 
+// var execs = require("child_process").exec;
+// var child = execs(" mysqldump -u root -p[] [lis] > dumpfilename.sql");
 exec(
-   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="127.0.0.1:5555" `,
+   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
    (error, stdout, stderr) => {
       console.log(stdout);
       console.log(stderr);
@@ -25,8 +27,6 @@ exec(
    }
 );
 
-app.use(cors());
-app.use(express.json({ limit: "50mb" }));
 app.use(
    upload({
       useTempFiles: true,
@@ -50,6 +50,35 @@ app.get("/api/documents/:file", function (request, response) {
    let file = request.params.file;
    var extension = file.split(".").pop();
    var tempFile = `./app/documents/${file}`;
+   fs.readFile(tempFile, function (err, data) {
+      console.log(extension);
+      switch (extension) {
+         case "jpg":
+            contentType = "image/jpg";
+            isImage = 1;
+            break;
+         case "png":
+            contentType = "image/png";
+            isImage = 1;
+            break;
+         case "jpeg":
+            contentType = "image/jpeg";
+            isImage = 1;
+            break;
+         case "pdf":
+            contentType = "application/pdf";
+            isImage = 2;
+            break;
+      }
+      response.contentType(contentType);
+      response.send(data);
+   });
+});
+
+app.get("/api/certificates/:file", function (request, response) {
+   let file = request.params.file;
+   var extension = file.split(".").pop();
+   var tempFile = `./app/certificates/${file}`;
    fs.readFile(tempFile, function (err, data) {
       console.log(extension);
       switch (extension) {

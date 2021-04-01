@@ -9,6 +9,8 @@ module.exports = (app) => {
 
    app.get("/api/patientTestId/:id", patientTest.findByPatientId);
 
+   app.get("/api/income", patientTest.findBetweenTwoDates);
+
    app.put("/api/patientTest/:id", patientTest.update);
 
    app.delete("/api/patientTest/:id", patientTest.delete);

@@ -6,6 +6,7 @@ const Patient = function (patient) {
    this.email = patient.email;
    this.gender = patient.gender;
    this.dob = patient.dob;
+   this.address = patient.address;
    this.phone = patient.phone;
    this.weight = patient.weight;
    this.height = patient.height;

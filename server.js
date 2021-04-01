@@ -45,6 +45,7 @@ require("./app/routes/provider.routes.js")(app);
 require("./app/routes/photo.routes.js")(app);
 require("./app/routes/testOptions.routes.js")(app);
 require("./app/routes/testRange.routes.js")(app);
+require("./app/routes/excelFile.routes.js")(app);
 
 app.get("/api/documents/:file", function (request, response) {
    let file = request.params.file;
@@ -67,6 +68,35 @@ app.get("/api/documents/:file", function (request, response) {
             break;
          case "pdf":
             contentType = "application/pdf";
+            isImage = 2;
+            break;
+      }
+      response.contentType(contentType);
+      response.send(data);
+   });
+});
+
+app.get("/api/excel/:file", function (request, response) {
+   let file = request.params.file;
+   var extension = file.split(".").pop();
+   var tempFile = `./${file}`;
+   fs.readFile(tempFile, function (err, data) {
+      console.log(extension);
+      switch (extension) {
+         case "jpg":
+            contentType = "image/jpg";
+            isImage = 1;
+            break;
+         case "png":
+            contentType = "image/png";
+            isImage = 1;
+            break;
+         case "jpeg":
+            contentType = "image/jpeg";
+            isImage = 1;
+            break;
+         case "xlsx":
+            contentType = "application/vnd.ms-excel";
             isImage = 2;
             break;
       }

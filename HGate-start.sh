@@ -18,7 +18,7 @@ Script for run HGate, usage: ${0##*/} --private="data..." --public="data..."
     -h, --help                  display this help and exit
     --private=""                private key
     --public=""                 public key
-    --address=<host:port>       default: "0.0.0.0:5555"
+    --address=<host:port>       default: "127.0.0.1:5555"
 EOF
 }
 
@@ -61,8 +61,8 @@ cop:
 EOM
 
 docker rm --force tokend-hgate || true
-docker run -e "ENABLE_CORS=true" -d --name tokend-hgate \
+docker run  -d --name tokend-hgate \
   --env KV_VIPER_FILE=/config.yaml \
   --volume "$(pwd)/${config}":/config.yaml \
-  --publish "${address:-"0.0.0.0:5555"}:80" \
+  --publish "${address:-"127.0.0.1:5555"}:80" \
   tokend/hgate:1.1.9-m run

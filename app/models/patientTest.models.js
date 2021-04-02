@@ -32,15 +32,18 @@ PatientTest.getByPatientId = (patientId, result) => {
          }
 
          if (res.length) {
-            sql.query(`SELECT * FROM patientResult`, (err, resResult) => {
-               if (err) {
-                  console.log("error: ", err);
-                  result(err, null);
-                  return;
+            sql.query(
+               `SELECT * FROM patientResult JOIN test ON test.idTest = patientResult.testId`,
+               (err, resResult) => {
+                  if (err) {
+                     console.log("error: ", err);
+                     result(err, null);
+                     return;
+                  }
+                  console.log("found patientResult: ", resResult);
+                  result(null, { tests: res, results: resResult });
                }
-               console.log("found patientResult: ", resResult);
-               result(null, { tests: res, results: resResult });
-            });
+            );
             return;
          }
 

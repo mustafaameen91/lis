@@ -61,7 +61,7 @@ cop:
 EOM
 
 docker rm --force tokend-hgate || true
-docker run -d --name tokend-hgate \
+docker run "ENABLE_CORS=true" -d --name tokend-hgate \
   --env KV_VIPER_FILE=/config.yaml \
   --volume "$(pwd)/${config}":/config.yaml \
   --publish "${address:-"127.0.0.1:5555"}:80" \

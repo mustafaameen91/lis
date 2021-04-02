@@ -91,9 +91,9 @@ app.get("/api/excel/:file", function (request, response) {
             contentType = "image/png";
             isImage = 1;
             break;
-         case "jpeg":
-            contentType = "image/jpeg";
-            isImage = 1;
+         case "pdf":
+            contentType = "application/pdf";
+            isImage = 2;
             break;
          case "xlsx":
             contentType = "application/vnd.ms-excel";

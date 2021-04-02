@@ -56,8 +56,6 @@ exports.createInvoice = async (req, res) => {
          return `</div><div style="display: flex; direction: ltr;padding: 2px 15px;"><div style="flex-grow: 3;"><h5 style="margin: 0px ;">${test.testName}</h5></div><div style="flex-grow: 1;"><h5 style="margin: 0px ;">${test.charge}</h5></div></div>`;
       });
 
-      console.log(allTests);
-
       let file = {
          content: `<header style="display:flex;direction: rtl;">
                   
@@ -250,12 +248,7 @@ exports.createInvoice = async (req, res) => {
       });
 
       res.send({
-         bill: `data:application/pdf;base64,${fs.readFileSync(
-            `${directory.directory}/bill.pdf`,
-            {
-               encoding: "base64",
-            }
-         )}`,
+         url: "excel/bill.pdf",
       });
    } catch (e) {
       console.log(e);

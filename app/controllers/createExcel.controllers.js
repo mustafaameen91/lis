@@ -64,8 +64,8 @@ exports.createInvoice = async (req, res) => {
                   </div>
                   <div style="flex-grow: 1;text-align: center;"><img src="data:image/png;base64,${logoImage}" width="120"></div>
                   <div style="flex-grow: 1;text-align: right;margin-top: 30px;">
-                      <h4 style="font-size: 16px;margin: 4px 0px;">العدد : </h4>
-                      <h4 style="font-size: 16px;margin: 4px 0px;">التاريخ : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / </h4>
+                      <h4 style="font-size: 16px;margin: 4px 0px;">العدد : ${req.body.billId}</h4>
+                      <h4 style="font-size: 16px;margin: 4px 0px;">التاريخ : ${req.body.billDate} </h4>
                   </div>
               </header>
               <div style="margin:10px;border: 1px solid #353535"></div>

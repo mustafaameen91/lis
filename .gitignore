@@ -3,3 +3,6 @@
 .hgate.yaml
 Dockerfile
 package-lock.json
+/app/photos
+/app/certificates
+/app/documents

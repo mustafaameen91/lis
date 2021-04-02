@@ -343,7 +343,7 @@ exports.findTestPhoto = async (req, res) => {
          </div>
      </div>
      <div style="text-align: center;">
-         <div style="width: 20%;margin: auto;border: 1px solid #464646;">
+         <div style="width: 25%;margin: auto;border: 1px solid #464646;">
              <h3 style="margin: 5px ;color : ${colorResult};font-family:'arial'">${
                      req.body.result
                   } ${resultData}</h3>

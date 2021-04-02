@@ -233,7 +233,7 @@ exports.findTestPhoto = async (req, res) => {
                });
 
                let file = {
-                  content: `<div style="background-image: url('data:image/jpeg;base64,${bgImage}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                  content: `<style>*{font-family:Arial, Helvetica, sans-serif; !important}</style><div style="background-image: url('data:image/jpeg;base64,${bgImage}');background-size: cover;background-position: center;background-repeat: no-repeat;">
                   <header style="display:flex;direction: rtl;margin-bottom:20px;">
          <div style="flex-grow: 1;text-align: center;">
              <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">جمهورية العراق</h4>

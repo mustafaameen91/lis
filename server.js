@@ -17,7 +17,7 @@ let apiTestUrl = "https://api.staging.munahealth.com";
 // var execs = require("child_process").exec;
 // var child = execs(" mysqldump -u root -p[] [lis] > dumpfilename.sql");
 exec(
-   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="127.0.0.1:5555" `,
+   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
    (error, stdout, stderr) => {
       console.log(stdout);
       console.log(stderr);

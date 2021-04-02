@@ -250,9 +250,12 @@ exports.createInvoice = async (req, res) => {
       });
 
       res.send({
-         bill: fs.readFileSync(`${directory.directory}/bill.pdf`, {
-            encoding: "base64",
-         }),
+         bill: `data:application/pdf;base64,${fs.readFileSync(
+            `${directory.directory}/bill.pdf`,
+            {
+               encoding: "base64",
+            }
+         )}`,
       });
    } catch (e) {
       console.log(e);

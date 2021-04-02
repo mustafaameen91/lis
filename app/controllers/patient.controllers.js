@@ -221,45 +221,49 @@ exports.findTestPhoto = async (req, res) => {
             if (err) {
                console.log(err);
             } else {
-               let options = { format: "A4" };
+               let options = { format: "A4", printBackground: true };
                let logoImage = fs.readFileSync(
                   path.join(__dirname, "logo.png"),
                   {
                      encoding: "base64",
                   }
                );
+               let bgImage = fs.readFileSync(path.join(__dirname, "bg.jpeg"), {
+                  encoding: "base64",
+               });
 
                let file = {
-                  content: `<header style="display:flex;direction: rtl;margin-bottom:20px">
+                  content: `<div style="background-image: url('data:image/jpeg;base64,${bgImage}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                  <header style="display:flex;direction: rtl;margin-bottom:20px;">
          <div style="flex-grow: 1;text-align: center;">
-             <h4 style="font-size: 10px;margin: 4px 0px;">جمهورية العراق</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;">وزارة الصحة / البيئة</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;">Ministry of Health / Environment</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;">Department of Popular Medical Clinics</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">جمهورية العراق</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">وزارة الصحة / البيئة</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">Ministry of Health / Environment</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">Department of Popular Medical Clinics</h4>
              <div style="height: 10px;"></div>
-             <h4 style="font-size: 10px;margin: 4px 0px;">شهادة صحية</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;">لفحص مسحة فايروس كورونا المستجد</h4>
-             <h6 style="font-size: 8px;margin: 3px 0px;">لقد تم منح هذه الشهادة بناء على رغبة الشخص ، دون اي مسؤولية من الجهة</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;">المانحة</h6>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">شهادة صحية</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">لفحص مسحة فايروس كورونا المستجد</h4>
+             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">لقد تم منح هذه الشهادة بناء على رغبة الشخص ، دون اي مسؤولية من الجهة</h6>
+             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">المانحة</h6>
          </div>
          <div style="flex-grow: 1;text-align: center;"><img src="data:image/png;base64,${logoImage}" width="120"></div>
          <div style="flex-grow: 1;text-align: center;">
              <div style="height: 10px;"></div>
-             <h4 style="font-size: 10px;margin: 4px 0px;">المختبر الوطني الاستثماري للتحليلات المرضيه</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;">المختبر مجاز من قبل وزارة الصحة العراقية</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">المختبر الوطني الاستثماري للتحليلات المرضيه</h4>
+             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">المختبر مجاز من قبل وزارة الصحة العراقية</h4>
              <div style="height: 20px;"></div>
              <h4 style="font-size: 10px;margin: 4px 0px;">Health Certificate</h4>
-             <h4 style="direction: ltr;font-size: 10px;margin: 4px 0px;">2019 Novel Coronavirus Test</h4>
-             <h6 style="font-size: 8px;margin: 3px 0px;">this certificate has been granted to the person upon their personal</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;">request to whom it may concern and MOH is not responsible for any</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;">consequences resulting from this</h6>
+             <h4 style="direction: ltr;font-size: 10px;margin: 4px 0px;font-family:'arial'">2019 Novel Coronavirus Test</h4>
+             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">this certificate has been granted to the person upon their personal</h6>
+             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">request to whom it may concern and MOH is not responsible for any</h6>
+             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">consequences resulting from this</h6>
          </div>
      </header>
      <div style="border: 2px solid #464646;margin: 0px 20px;">
          
          <div style="border-bottom:2px solid #464646;">
              <div style="display: flex;">
-                 <div style="flex-grow: 1;padding: 5px;"><span>Full Name : </span><span>  ${
+                 <div style="flex-grow: 1;padding: 5px;"><span>Full Name : </span><span style="font-family:'arial'">  ${
                     req.body.enName
                  }</span></div>
                  <div style="flex-grow: 1;direction: rtl;padding: 5px;"><span>الاسم الكامل : </span><span> ${
@@ -268,79 +272,79 @@ exports.findTestPhoto = async (req, res) => {
              </div>
              <div style="display: flex;">
                  <div style="flex-grow: 1;padding: 5px;"><span> Gender - Age </span></div>
-                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span>${
+                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span style="font-family:'arial'">${
                     req.body.gender
                  } - ${req.body.age} </span></div>
-                 <div style="flex-grow: 1;direction: rtl;padding: 5px;">  الجنس - العمر<span></span></div>
+                 <div style="flex-grow: 1;direction: rtl;padding: 5px;font-family:'arial'">  الجنس - العمر<span></span></div>
              </div>
          </div>
          <div style="border-bottom:2px solid #464646;">
              <div style="display: flex;">
-                 <div style="width: 25%;padding: 5px;"><span> Registration No. </span></div>
-                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span>${
+                 <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Registration No. </span></div>
+                 <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
                     req.body.patientResultId
                  }</span></div>
-                 <div style="width: 25%;direction: rtl;padding: 5px;"> <span>رقم التسلسل</span></div>
+                 <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span>رقم التسلسل</span></div>
              </div>
          </div>
          <div style="border-bottom:2px solid #464646;">
              <div style="display: flex;">
-                 <div style="width: 25%;padding: 5px;"><span> Passport / ID No. </span></div>
-                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span>${
+                 <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Passport / ID No. </span></div>
+                 <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
                     req.body.documentId
                  }</span></div>
-                 <div style="width: 25%;direction: rtl;padding: 5px;"> <span>رقم الجواز / البطاقة التعريفية</span></div>
+                 <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span>رقم الجواز / البطاقة التعريفية</span></div>
              </div>
          </div>
          <div style="border-bottom:2px solid #464646;">
              <div style="display: flex;">
-                 <div style="width: 25%;padding: 5px;"><span> Date of Report </span></div>
-                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span>${
+                 <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Date of Report </span></div>
+                 <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
                     req.body.date
                  }</span></div>
-                 <div style="width: 25%;direction: rtl;padding: 5px;"> <span> تاريخ اصدار النتيجة </span></div>
+                 <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span> تاريخ اصدار النتيجة </span></div>
              </div>
          </div>
          <div>
              <div style="display: flex;">
-                 <div style="width: 25%;padding: 5px;"><span> Nationality </span></div>
-                 <div style="flex-grow: 1;padding: 5px;text-align: center;"><span>${
+                 <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Nationality </span></div>
+                 <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
                     req.body.nationality
                  }</span></div>
-                 <div style="width: 25%;direction: rtl;padding: 5px;"> <span> الجنسية </span></div>
+                 <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span> الجنسية </span></div>
              </div>
          </div>
      </div>
      <div style="display: flex; direction: rtl;padding: 10px;">
          <div style="flex-grow: 1;">
-             <h6 style="font-size: 10px;margin: 3px 0px;">النتيجة السالبة لا تعني عدم الاصابة بمرض كوفيد ١٩ او عواقبه بينما النتيجه</h6>
-             <h6 style="font-size: 10px;margin: 3px 0px;">الموجبة تعني الاصابة الفعالة بالمرض والاصابة بفايروس كورونا المستجد</h6>
-             <h6 style="font-size: 10px;margin: 3px 0px;">يجب ربط الحالة الطبية والتاريخ المرضي مع فحص المسحة او الدم</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">النتيجة السالبة لا تعني عدم الاصابة بمرض كوفيد ١٩ او عواقبه بينما النتيجه</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">الموجبة تعني الاصابة الفعالة بالمرض والاصابة بفايروس كورونا المستجد</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">يجب ربط الحالة الطبية والتاريخ المرضي مع فحص المسحة او الدم</h6>
          </div>
          <div style="flex-grow: 1;text-align: left;">
-             <h6 style="font-size: 10px;margin: 3px 0px;">A negative result dose not mean not suffering from Covid 19 disease or its</h6>
-             <h6 style="font-size: 10px;margin: 3px 0px;">consequences, while a positive result means effective infection with the</h6>
-             <h6 style="font-size: 10px;margin: 3px 0px;">disease and infection with the emerging</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">A negative result dose not mean not suffering from Covid 19 disease or its</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">consequences, while a positive result means effective infection with the</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;font-family:'arial'">disease and infection with the emerging</h6>
          </div>
      </div>
  
      <div style="display: flex; direction: rtl;padding: 10px;">
          <div style="flex-grow: 1;">
-             <h6 style="font-size: 12px;margin: 3px 0px;">فحص مسحة (2019 -nCoV)</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">نؤكد ان مسحة الشخص اعلاه تم فحصها لمرض</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">(Covid - 19) بطريقة (real time-PCR)</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">وظهرت نتيجة المسحة كالتالي</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">فحص مسحة (2019 -nCoV)</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">نؤكد ان مسحة الشخص اعلاه تم فحصها لمرض</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">(Covid - 19) بطريقة (real time-PCR)</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">وظهرت نتيجة المسحة كالتالي</h6>
          </div>
          <div style="flex-grow: 1;text-align: left;">
-             <h6 style="font-size: 12px;margin: 3px 0px;">SWAB test (2019-nCov)</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">WE CERTIFY THAT A SWAB from THIS PERSON</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">is tested for COVID-19 BY (real time-PCR)</h6>
-             <h6 style="font-size: 12px;margin: 3px 0px;">Result interpretation is</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">SWAB test (2019-nCov)</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">WE CERTIFY THAT A SWAB from THIS PERSON</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">is tested for COVID-19 BY (real time-PCR)</h6>
+             <h6 style="font-size: 12px;margin: 3px 0px;font-family:'arial'">Result interpretation is</h6>
          </div>
      </div>
      <div style="text-align: center;">
          <div style="width: 20%;margin: auto;border: 1px solid #464646;">
-             <h3 style="margin: 5px ;color : ${colorResult}">${
+             <h3 style="margin: 5px ;color : ${colorResult};font-family:'arial'">${
                      req.body.result
                   } ${resultData}</h3>
          </div>
@@ -348,16 +352,16 @@ exports.findTestPhoto = async (req, res) => {
  
      <div style="text-align: center;">
          <div style="margin: 5px;border: 1px solid #464646;padding: 3px;">
-             <span style="color:rgb(13, 148, 85)">NO 2019 Novel Coronavirus (2019-nCov) RNA was detected in the specimen , and the concentration was lower than the sensitivity of the kit</span>
+             <span style="color:rgb(13, 148, 85);font-family:'arial'">NO 2019 Novel Coronavirus (2019-nCov) RNA was detected in the specimen , and the concentration was lower than the sensitivity of the kit</span>
          </div>
      </div>
  
      <div style="display: flex; direction: rtl;padding: 5px;">
          <div style="flex-grow: 1;">
-             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(223, 68, 68)">استخدام تطبيق الكامرة للتحقق من صحة التقرير عن طريق مسح الكيو ار كود</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(223, 68, 68);font-family:'arial'">استخدام تطبيق الكامرة للتحقق من صحة التقرير عن طريق مسح الكيو ار كود</h6>
          </div>
          <div style="flex-grow: 1;text-align: left;">
-             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(223, 68, 68)">scan the Qr code by mobile app to check report validity</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(223, 68, 68);font-family:'arial'">scan the Qr code by mobile app to check report validity</h6>
          </div>
      </div>
  
@@ -365,10 +369,10 @@ exports.findTestPhoto = async (req, res) => {
  
      <div style="display: flex; direction: rtl;padding: 5px;">
          <div style="flex-grow: 1;">
-             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">التاخر في مواعيد السفر ليست مسؤوليتنا</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85);font-family:'arial'">التاخر في مواعيد السفر ليست مسؤوليتنا</h6>
          </div>
          <div style="flex-grow: 1;text-align: left;">
-             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">Travel date changes is not our responsibility</h6>
+             <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85);font-family:'arial'">Travel date changes is not our responsibility</h6>
          </div>
      </div>
  
@@ -385,12 +389,14 @@ exports.findTestPhoto = async (req, res) => {
          <div style="flex-grow: 1;text-align: center;">Authorization</div>
      </div>
  
-     <div style="border: 1px solid;margin-top:200px"></div>
- 
-     <div style="direction: rtl;">
-         <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">للاستفسار الاتصال على رقم الموبايل - 07723383833 يجب استلام نسخة ورقية لغرض السفر</h6>
-         <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">خدمة ٢٤ ساعة وعلى مدار الاسبوع ويتم تسليم النتيجة بما لا يزيد عن ٢٤ ساعة مع مراعاة الحالات الطارئة</h6>
-     </div>`,
+   <div style="direction: rtl;">
+      <div style="border: 1px solid;position: relative;bottom: -220px;"></div>
+      <div style="position: fixed;bottom: 10px;">
+        <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">للاستفسار الاتصال على رقم الموبايل - 07723383833 يجب استلام نسخة ورقية لغرض السفر</h6>
+        <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">خدمة ٢٤ ساعة وعلى مدار الاسبوع ويتم تسليم النتيجة بما لا يزيد عن ٢٤ ساعة مع مراعاة الحالات الطارئة</h6>
+      </div>
+    </div>
+    </div>`,
                };
 
                html_to_pdf.generatePdf(file, options).then((pdfBuffer) => {
@@ -410,25 +416,45 @@ exports.findTestPhoto = async (req, res) => {
                               "Some error occurred while creating the certificateDocument.",
                         });
                      else {
-                        let patientPhoto = req.body.patientPhoto.split("/")[1];
-                        let dataForSend = {
-                           idCertificateDocument: data.idCertificateDocument,
-                           patientResultId: data.patientResultId,
-                           certificatePath: data.certificatePath,
-                           pdf: fs.readFileSync(
-                              `${directory.directory}/app/certificates/${reportName}.pdf`,
-                              { encoding: "base64" }
-                           ),
-                           fileName: `${reportName}.pdf`,
-                           mime_type: "application/pdf",
-                           photo: fs.readFileSync(
-                              `${directory.directory}/app/photos/${patientPhoto}`,
-                              { encoding: "base64" }
-                           ),
-                           photoName: `${patientPhoto}`,
-                           photo_mime: "image/jpeg",
-                        };
-                        res.send(dataForSend);
+                        try {
+                           let patientPhoto = req.body.patientPhoto.split(
+                              "/"
+                           )[1];
+                           let dataForSend = {
+                              idCertificateDocument: data.idCertificateDocument,
+                              patientResultId: data.patientResultId,
+                              certificatePath: data.certificatePath,
+                              pdf: fs.readFileSync(
+                                 `${directory.directory}/app/certificates/${reportName}.pdf`,
+                                 { encoding: "base64" }
+                              ),
+                              fileName: `${reportName}.pdf`,
+                              mime_type: "application/pdf",
+                              photo: fs.readFileSync(
+                                 `${directory.directory}/app/photos/${patientPhoto}`,
+                                 { encoding: "base64" }
+                              ),
+                              photoName: `${patientPhoto}`,
+                              photo_mime: "image/jpeg",
+                           };
+                           res.send(dataForSend);
+                        } catch (e) {
+                           let dataForSend = {
+                              idCertificateDocument: data.idCertificateDocument,
+                              patientResultId: data.patientResultId,
+                              certificatePath: data.certificatePath,
+                              pdf: fs.readFileSync(
+                                 `${directory.directory}/app/certificates/${reportName}.pdf`,
+                                 { encoding: "base64" }
+                              ),
+                              fileName: `${reportName}.pdf`,
+                              mime_type: "application/pdf",
+                              photo: "",
+                              photoName: ``,
+                              photo_mime: "image/jpeg",
+                           };
+                           res.send(dataForSend);
+                        }
                      }
                   });
                });

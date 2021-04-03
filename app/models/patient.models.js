@@ -66,7 +66,7 @@ Patient.findAllPatientData = (numPerPage, limit, result) => {
          var numRows = rows[0].numRows;
          var numPages = Math.ceil(numRows / numPerPage);
          sql.query(
-            `SELECT * FROM patient JOIN nationality ON nationality.idNationality = patient.nationalityId LIMIT ${limit} ORDER BY patient.idPatient desc`,
+            `SELECT * FROM patient JOIN nationality ON nationality.idNationality = patient.nationalityId ORDER BY patient.idPatient DESC LIMIT ${limit}`,
             (err, res) => {
                if (err) {
                   console.log("error: ", err);

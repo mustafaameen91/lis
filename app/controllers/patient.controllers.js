@@ -509,7 +509,7 @@ exports.findOne = (req, res) => {
 
 exports.findPatientInformation = (req, res) => {
    let page = req.query.page;
-   var numPerPage = 10;
+   var numPerPage = 1000;
    var skip = (page - 1) * numPerPage;
    var limit = skip + "," + numPerPage;
    Patient.findAllPatientData(numPerPage, limit, (err, data) => {

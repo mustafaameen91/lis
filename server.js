@@ -46,6 +46,7 @@ require("./app/routes/photo.routes.js")(app);
 require("./app/routes/testOptions.routes.js")(app);
 require("./app/routes/testRange.routes.js")(app);
 require("./app/routes/excelFile.routes.js")(app);
+require("./app/routes/certificateDocument.routes.js")(app);
 
 app.get("/api/documents/:file", function (request, response) {
    let file = request.params.file;

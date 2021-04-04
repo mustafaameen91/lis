@@ -49,6 +49,28 @@ CertificateDocument.findById = (certificateDocumentId, result) => {
    );
 };
 
+CertificateDocument.findByIdResult = (patientResultId, result) => {
+   console.log(patientResultId);
+   sql.query(
+      `SELECT * FROM certificateDocument WHERE patientResultId = ${patientResultId}`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         if (res.length) {
+            console.log("found certificateDocument: ", res[res.length - 1]);
+            result(null, res[res.length - 1]);
+            return;
+         }
+
+         result({ kind: "not_found" }, null);
+      }
+   );
+};
+
 CertificateDocument.getAll = (result) => {
    sql.query("SELECT * FROM certificateDocument", (err, res) => {
       if (err) {

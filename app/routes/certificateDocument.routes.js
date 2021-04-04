@@ -7,6 +7,8 @@ module.exports = (app) => {
 
    app.get("/api/certificateDocument/:id", certificateDocument.findOne);
 
+   app.get("/api/uploadCertificate/:id", certificateDocument.findOneByResultId);
+
    app.put("/api/certificateDocument/:id", certificateDocument.update);
 
    app.delete("/api/certificateDocument/:id", certificateDocument.delete);

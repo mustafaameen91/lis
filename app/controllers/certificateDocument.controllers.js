@@ -1,4 +1,7 @@
 const CertificateDocument = require("../models/certificateDocument.models.js");
+const directory = require("./../../server");
+const fs = require("fs");
+const fetch = require("node-fetch");
 
 exports.create = (req, res) => {
    if (!req.body) {
@@ -32,6 +35,51 @@ exports.findAll = (req, res) => {
                "Some error occurred while retrieving certificateDocument.",
          });
       else res.send(data);
+   });
+};
+
+exports.findOneByResultId = (req, res) => {
+   CertificateDocument.findByIdResult(req.params.id, (err, data) => {
+      if (err) {
+         if (err.kind === "not_found") {
+            res.status(404).send({
+               message: `Not found certificateDocument with id ${req.params.id}.`,
+            });
+         } else {
+            res.status(500).send({
+               message:
+                  "Error retrieving certificateDocument with id " +
+                  req.params.id,
+            });
+         }
+      } else {
+         let fileName = data.certificatePath.split("/")[1];
+         let fileData = fs.readFileSync(
+            `${directory.directory}/app/${data.certificatePath}`,
+            {
+               encoding: "base64",
+            }
+         );
+
+         let certificate = {
+            fileName: fileName,
+            pdf: fileData,
+         };
+
+         fetch("http://161.22.42.250/api/uploadQR", {
+            method: "POST",
+            body: JSON.stringify(certificate),
+            headers: { "Content-Type": "application/json" },
+         })
+            .then((data2) => {
+               res.send(data);
+            })
+            .catch((e) => {
+               res.status(500).send({
+                  message: "Error retrieving certificateDocument  ",
+               });
+            });
+      }
    });
 };
 

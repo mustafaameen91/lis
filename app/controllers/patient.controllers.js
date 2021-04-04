@@ -210,7 +210,7 @@ exports.findTestPhoto = async (req, res) => {
       bwipjs.toBuffer(
          {
             bcid: "qrcode",
-            text: `http://localhost:3300/certificates/${reportName}.pdf`,
+            text: `http://161.22.42.250/api/certificates/${reportName}.pdf`,
             scale: 4,
             height: 10,
             width: 10,
@@ -233,35 +233,35 @@ exports.findTestPhoto = async (req, res) => {
                });
 
                let file = {
-                  content: `<style>*{font-family:Arial, Helvetica, sans-serif; !important}</style><div style="background-image: url('data:image/jpeg;base64,${bgImage}');background-size: cover;background-position: center;background-repeat: no-repeat;">
+                  content: `<style>*{font-family:Arial, Helvetica, sans-serif; !important}body{border : 1px solid; padding : 10px}</style><div style="background-image: url('data:image/jpeg;base64,${bgImage}');background-size: cover;background-position: center;background-repeat: no-repeat;">
                   <header style="display:flex;direction: rtl;margin-bottom:20px;">
          <div style="flex-grow: 1;text-align: center;">
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">جمهورية العراق</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">وزارة الصحة / البيئة</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">Ministry of Health / Environment</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">Department of Popular Medical Clinics</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">جمهورية العراق</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">وزارة الصحة / البيئة</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">Ministry of Health / Environment</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">Department of Popular Medical Clinics</h4>
              <div style="height: 10px;"></div>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">شهادة صحية</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">لفحص مسحة فايروس كورونا المستجد</h4>
-             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">لقد تم منح هذه الشهادة بناء على رغبة الشخص ، دون اي مسؤولية من الجهة</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">المانحة</h6>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">شهادة صحية</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">لفحص مسحة فايروس كورونا المستجد</h4>
+             <h6 style="font-size: 14px;margin: 3px 0px;font-family:'arial'">لقد تم منح هذه الشهادة بناء على رغبة الشخص ، دون اي مسؤولية من الجهة</h6>
+             <h6 style="font-size: 14px;margin: 3px 0px;font-family:'arial'">المانحة</h6>
          </div>
          <div style="flex-grow: 1;text-align: center;"><img src="data:image/png;base64,${logoImage}" width="120"></div>
          <div style="flex-grow: 1;text-align: center;">
              <div style="height: 10px;"></div>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">المختبر الوطني الاستثماري للتحليلات المرضيه</h4>
-             <h4 style="font-size: 10px;margin: 4px 0px;font-family:'arial'">المختبر مجاز من قبل وزارة الصحة العراقية</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">المختبر الوطني الاستثماري للتحليلات المرضيه</h4>
+             <h4 style="font-size: 14px;margin: 4px 0px;font-family:'arial'">المختبر مجاز من قبل وزارة الصحة العراقية</h4>
              <div style="height: 20px;"></div>
-             <h4 style="font-size: 10px;margin: 4px 0px;">Health Certificate</h4>
-             <h4 style="direction: ltr;font-size: 10px;margin: 4px 0px;font-family:'arial'">2019 Novel Coronavirus Test</h4>
-             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">this certificate has been granted to the person upon their personal</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">request to whom it may concern and MOH is not responsible for any</h6>
-             <h6 style="font-size: 8px;margin: 3px 0px;font-family:'arial'">consequences resulting from this</h6>
+             <h4 style="font-size: 14px;margin: 4px 0px;">Health Certificate</h4>
+             <h4 style="direction: ltr;font-size: 14px;margin: 4px 0px;font-family:'arial'">2019 Novel Coronavirus Test</h4>
+             <h6 style="font-size: 14px;margin: 3px 0px;font-family:'arial'">this certificate has been granted to the person upon their personal</h6>
+             <h6 style="font-size: 14px;margin: 3px 0px;font-family:'arial'">request to whom it may concern and MOH is not responsible for any</h6>
+             <h6 style="font-size: 14px;margin: 3px 0px;font-family:'arial'">consequences resulting from this</h6>
          </div>
      </header>
      <div style="border: 2px solid #464646;margin: 0px 20px;">
          
-         <div style="border-bottom:2px solid #464646;">
+         <div style="border-bottom:2px solid #464646;padding: 10px;">
              <div style="display: flex;">
                  <div style="flex-grow: 1;padding: 5px;"><span>Full Name : </span><span style="font-family:'arial'">  ${
                     req.body.enName
@@ -278,7 +278,7 @@ exports.findTestPhoto = async (req, res) => {
                  <div style="flex-grow: 1;direction: rtl;padding: 5px;font-family:'arial'">  الجنس - العمر<span></span></div>
              </div>
          </div>
-         <div style="border-bottom:2px solid #464646;">
+         <div style="border-bottom:2px solid #464646;padding: 10px;">
              <div style="display: flex;">
                  <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Registration No. </span></div>
                  <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
@@ -287,7 +287,7 @@ exports.findTestPhoto = async (req, res) => {
                  <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span>رقم التسلسل</span></div>
              </div>
          </div>
-         <div style="border-bottom:2px solid #464646;">
+         <div style="border-bottom:2px solid #464646;padding: 10px;">
              <div style="display: flex;">
                  <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Passport / ID No. </span></div>
                  <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
@@ -296,7 +296,7 @@ exports.findTestPhoto = async (req, res) => {
                  <div style="width: 25%;direction: rtl;padding: 5px;font-family:'arial'"> <span>رقم الجواز / البطاقة التعريفية</span></div>
              </div>
          </div>
-         <div style="border-bottom:2px solid #464646;">
+         <div style="border-bottom:2px solid #464646;padding: 10px;">
              <div style="display: flex;">
                  <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Date of Report </span></div>
                  <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
@@ -306,7 +306,7 @@ exports.findTestPhoto = async (req, res) => {
              </div>
          </div>
          <div>
-             <div style="display: flex;">
+             <div style="display: flex;padding: 10px;">
                  <div style="width: 25%;padding: 5px;font-family:'arial'"><span> Nationality </span></div>
                  <div style="flex-grow: 1;padding: 5px;text-align: center;font-family:'arial'"><span>${
                     req.body.nationality
@@ -376,7 +376,7 @@ exports.findTestPhoto = async (req, res) => {
          </div>
      </div>
  
-     <div style="text-align: center;margin-bottom:50px">
+     <div style="text-align: center;margin-bottom:20px">
          <div style="margin: auto;">
              <img src="${
                 "data:image/png;base64," + Buffer.from(png).toString("base64")
@@ -390,7 +390,7 @@ exports.findTestPhoto = async (req, res) => {
      </div>
  
    <div style="direction: rtl;">
-      <div style="border: 1px solid;position: relative;bottom: -220px;"></div>
+   <div style="border: 1px solid;position: relative;bottom: 10px;margin-top:100px ;"></div>
       <div style="position: fixed;bottom: 10px;">
         <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">للاستفسار الاتصال على رقم الموبايل - 07723383833 يجب استلام نسخة ورقية لغرض السفر</h6>
         <h6 style="font-size: 10px;margin: 3px 0px;color:rgb(13, 148, 85)">خدمة ٢٤ ساعة وعلى مدار الاسبوع ويتم تسليم النتيجة بما لا يزيد عن ٢٤ ساعة مع مراعاة الحالات الطارئة</h6>

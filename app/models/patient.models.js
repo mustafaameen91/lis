@@ -128,9 +128,29 @@ Patient.getAll = (result) => {
 };
 
 Patient.updateById = (id, patient, result) => {
+   console.log(patient);
    sql.query(
-      "UPDATE patient SET nationalName = ?  WHERE idPatient = ?",
-      [patient.nationalName, id],
+      `UPDATE patient SET name = ? , enName = ? , email = ? , gender = ? , dob =? , address = ? , phone = ? , weight = ? , height = ? , relationship = ? , nationalityId = ? , documentId = ? , smoker = ? , fasting = ? , munaId = ? , certificateNo = ? , createdBy = ?  WHERE idPatient = ?`,
+      [
+         patient.name,
+         patient.enName,
+         patient.email,
+         patient.gender,
+         patient.dob,
+         patient.address,
+         patient.phone,
+         patient.weight,
+         patient.height,
+         patient.relationship,
+         patient.nationalityId,
+         patient.documentId,
+         patient.smoker,
+         patient.fasting,
+         patient.munaId,
+         patient.certificateNo,
+         patient.createdBy,
+         id,
+      ],
       (err, res) => {
          if (err) {
             console.log("error: ", err);

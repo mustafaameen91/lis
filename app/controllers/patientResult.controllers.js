@@ -7,6 +7,8 @@ exports.create = (req, res) => {
       });
    }
 
+   console.log(req.body);
+
    const patientResult = new PatientResult({
       testId: req.body.testId,
       patientTestId: req.body.patientTestId,

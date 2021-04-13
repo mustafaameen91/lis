@@ -177,6 +177,49 @@ exports.create = (req, res) => {
    });
 };
 
+exports.findAllForProvider = (req, res) => {
+   Patient.getAllForProvider((err, data) => {
+      if (err) {
+         res.status(500).send({
+            message:
+               err.message || "Some error occurred while retrieving patient.",
+         });
+      }
+      let patients = data.patients.map((pat) => {
+         return {
+            idPatient: pat.idPatient,
+            name: pat.name,
+            enName: pat.enName,
+            email: pat.email,
+            gender: pat.gender,
+            dob: pat.dob,
+            address: pat.address,
+            phone: pat.phone,
+            weight: pat.weight,
+            height: pat.height,
+            relationship: pat.relationship,
+            nationalityId: pat.nationalityId,
+            nationalName: pat.nationalName,
+            documentId: pat.documentId,
+            smoker: pat.smoker,
+            fasting: pat.fasting,
+            munaId: pat.munaId,
+            certificateNo: pat.certificateNo,
+            createdAt: pat.createdAt,
+            documentPhoto: data.photos.filter(
+               (photo) =>
+                  photo.patientId == pat.idPatient && photo.photoType == 1
+            )[0],
+            image: data.photos.filter(
+               (photo) =>
+                  photo.patientId == pat.idPatient && photo.photoType == 0
+            )[0],
+         };
+      });
+      res.send(patients);
+   });
+};
+
 exports.findAll = (req, res) => {
    Patient.getAll((err, data) => {
       if (err)

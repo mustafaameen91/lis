@@ -114,6 +114,31 @@ Patient.findByDocumentId = (documentId, result) => {
    );
 };
 
+Patient.getAllForProvider = (result) => {
+   sql.query(
+      `SELECT * FROM patient JOIN nationality ON nationality.idNationality = patient.nationalityId ORDER BY patient.idPatient DESC`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(null, err);
+            return;
+         } else {
+            sql.query("SELECT * FROM photo", (err, resPhoto) => {
+               if (err) {
+                  console.log("error: ", err);
+                  result(null, err);
+                  return;
+               }
+               result(null, {
+                  patients: res,
+                  photos: resPhoto,
+               });
+            });
+         }
+      }
+   );
+};
+
 Patient.getAll = (result) => {
    sql.query("SELECT * FROM patient", (err, res) => {
       if (err) {

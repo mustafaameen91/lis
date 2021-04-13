@@ -11,11 +11,13 @@ app.use(express.json({ limit: "50mb" }));
 
 let private_key = "SCT2C22KSURLOXBEQJFQN6APITKIXUUSZLCMYWLZ6K735QODLPKYVR7R";
 let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
-let apiUrl = "https://api.munahealth.com";
-let apiTestUrl = "https://api.staging.munahealth.com";
+
+// let apiUrl = "https://api.munahealth.com";
+// let apiTestUrl = "https://api.staging.munahealth.com";
 
 // var execs = require("child_process").exec;
 // var child = execs(" mysqldump -u root -p[] [lis] > dumpfilename.sql");
+
 exec(
    `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
    (error, stdout, stderr) => {

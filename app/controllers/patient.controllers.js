@@ -43,6 +43,7 @@ exports.create = (req, res) => {
 
    Patient.findByDocumentId(req.body.patient.documentId, (err, data) => {
       if (err.kind === "not_found") {
+         console.log(patientData.nationalityId);
          const patient = new Patient({
             name: patientData.name,
             enName: patientData.enName,
@@ -58,6 +59,7 @@ exports.create = (req, res) => {
             documentId: patientData.documentId,
             smoker: patientData.smoker,
             fasting: patientData.fasting,
+            legal: patientData.legal,
             munaId: patientData.munaId,
             certificateNo: patientData.certificateNo,
             createdBy: patientData.createdBy,
@@ -130,6 +132,24 @@ exports.create = (req, res) => {
                                     }
                                  }
                               );
+                           } else {
+                              const photo = new Photo({
+                                 photoPath:
+                                    data.gender == 0
+                                       ? "image/man.jpeg"
+                                       : "image/women.jpeg",
+                                 patientId: data.id,
+                                 photoType: 0,
+                              });
+
+                              Photo.create(photo, (err, data) => {
+                                 if (err)
+                                    res.status(500).send({
+                                       message:
+                                          err.message ||
+                                          "Some error occurred while upload the photo.",
+                                    });
+                              });
                            }
                         }
                      }
@@ -165,6 +185,24 @@ exports.create = (req, res) => {
                         }
                      }
                   );
+               } else {
+                  const photo = new Photo({
+                     photoPath:
+                        data.gender == 0
+                           ? "image/man.jpeg"
+                           : "image/women.jpeg",
+                     patientId: data.id,
+                     photoType: 0,
+                  });
+
+                  Photo.create(photo, (err, data) => {
+                     if (err)
+                        res.status(500).send({
+                           message:
+                              err.message ||
+                              "Some error occurred while upload the photo.",
+                        });
+                  });
                }
                res.send(data);
             }
@@ -203,6 +241,7 @@ exports.findAllForProvider = (req, res) => {
             documentId: pat.documentId,
             smoker: pat.smoker,
             fasting: pat.fasting,
+            legal: pat.legal,
             munaId: pat.munaId,
             certificateNo: pat.certificateNo,
             createdAt: pat.createdAt,
@@ -427,9 +466,9 @@ exports.findTestPhoto = async (req, res) => {
          </div>
      </div>
  
-     <div style="display: flex;padding: 10px;">
-         <div style="flex-grow: 1;text-align: center;">Director</div>
-         <div style="flex-grow: 1;text-align: center;">Authorization</div>
+     <div style="display: flex;padding: 10px 30px;">
+         <div style="flex-grow: 1;text-align: left;">Director</div>
+         <div style="flex-grow: 1;text-align: right;">Authorization</div>
      </div>
  
    <div style="direction: rtl;">
@@ -539,6 +578,7 @@ exports.findOne = (req, res) => {
             documentId: data[0].documentId,
             smoker: data[0].smoker,
             fasting: data[0].fasting,
+            legal: data[0].legal,
             munaId: data[0].munaId,
             certificateNo: data[0].certificateNo,
             createdAt: data[0].createdAt,
@@ -580,6 +620,7 @@ exports.findPatientInformation = (req, res) => {
             documentId: pat.documentId,
             smoker: pat.smoker,
             fasting: pat.fasting,
+            legal: pat.legal,
             munaId: pat.munaId,
             certificateNo: pat.certificateNo,
             createdAt: pat.createdAt,

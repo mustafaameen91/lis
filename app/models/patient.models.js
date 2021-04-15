@@ -15,6 +15,7 @@ const Patient = function (patient) {
    this.documentId = patient.documentId;
    this.smoker = patient.smoker;
    this.fasting = patient.fasting;
+   this.legal = patient.legal;
    this.munaId = patient.munaId;
    this.certificateNo = patient.certificateNo;
    this.createdBy = patient.createdBy;
@@ -155,7 +156,7 @@ Patient.getAll = (result) => {
 Patient.updateById = (id, patient, result) => {
    console.log(patient);
    sql.query(
-      `UPDATE patient SET name = ? , enName = ? , email = ? , gender = ? , dob =? , address = ? , phone = ? , weight = ? , height = ? , relationship = ? , nationalityId = ? , documentId = ? , smoker = ? , fasting = ? , munaId = ? , certificateNo = ? , createdBy = ?  WHERE idPatient = ?`,
+      `UPDATE patient SET name = ? , enName = ? , email = ? , gender = ? , dob =? , address = ? , phone = ? , weight = ? , height = ? , relationship = ? , nationalityId = ? , documentId = ? , smoker = ? , fasting = ? , legal = ?, munaId = ? , certificateNo = ? , createdBy = ?  WHERE idPatient = ?`,
       [
          patient.name,
          patient.enName,
@@ -171,6 +172,7 @@ Patient.updateById = (id, patient, result) => {
          patient.documentId,
          patient.smoker,
          patient.fasting,
+         patient.legal,
          patient.munaId,
          patient.certificateNo,
          patient.createdBy,

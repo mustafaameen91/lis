@@ -23,7 +23,7 @@ PatientTest.create = (newPatientTest, result) => {
 
 PatientTest.getByPatientId = (patientId, result) => {
    sql.query(
-      `SELECT * FROM patientTest WHERE patientId = ${patientId}`,
+      `SELECT * FROM patientTest JOIN user ON patientTest.createdBy = user.idUser WHERE patientId = ${patientId}`,
       (err, res) => {
          if (err) {
             console.log("error: ", err);

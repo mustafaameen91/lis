@@ -54,7 +54,7 @@ PatientTest.getByPatientId = (patientId, result) => {
 
 PatientTest.getBetweenTwoDates = (dateOne, DateTwo, testId, result) => {
    sql.query(
-      `SELECT * FROM patientResult JOIN patientTest JOIN test JOIN patient ON patientTest.idPatientTest = patientResult.patientTestId AND test.idTest = patientResult.testId AND patient.idPatient = patientTest.patientId WHERE (DATE(patientResult.requested) BETWEEN DATE('${dateOne}') AND DATE('${DateTwo}')) AND ${testId}`,
+      `SELECT * FROM patientResult JOIN patientTest JOIN test JOIN patient JOIN user ON patientTest.idPatientTest = patientResult.patientTestId AND test.idTest = patientResult.testId AND patient.idPatient = patientTest.patientId AND user.idUser = patientTest.createdBy WHERE (DATE(patientResult.requested) BETWEEN DATE('${dateOne}') AND DATE('${DateTwo}')) AND ${testId}`,
       (err, res) => {
          if (err) {
             console.log("error: ", err);

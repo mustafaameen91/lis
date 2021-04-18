@@ -18,6 +18,7 @@ exports.createExcel = async (req, res) => {
       { header: "result", key: "result" },
       { header: "phone", key: "phone" },
       { header: "date", key: "date" },
+      { header: "user", key: "userName" },
       { header: "patient result id", key: "testId" },
       { header: "price", key: "price" },
    ];
@@ -37,6 +38,7 @@ exports.createExcel = async (req, res) => {
          result: patient.result,
          phone: patient.phone,
          date: patient.date,
+         userName: patient.userName,
          testId: patient.testId,
          price: patient.price,
       });

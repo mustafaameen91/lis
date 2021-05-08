@@ -38,11 +38,13 @@ exports.create = (req, res) => {
          message: "Content can not be empty!",
       });
    }
-   console.log(req.body);
+
    let patientData = JSON.parse(req.body.patient);
 
+   console.log(patientData);
+
    Patient.findByDocumentId(req.body.patient.documentId, (err, data) => {
-      if (err.kind === "not_found") {
+      if (err != null) {
          console.log(patientData.nationalityId);
          const patient = new Patient({
             name: patientData.name,
@@ -185,6 +187,9 @@ exports.create = (req, res) => {
                         }
                      }
                   );
+               } else if (req.body.patientPhoto) {
+                  console.log(req.body);
+                  res.send("done");
                } else {
                   const photo = new Photo({
                      photoPath:
@@ -205,6 +210,119 @@ exports.create = (req, res) => {
                   });
                }
                res.send(data);
+            }
+         });
+      } else {
+         res.status(403).send({
+            message: "this patient is already exist",
+         });
+      }
+   });
+};
+
+exports.createForPhone = (req, res) => {
+   if (!req.body) {
+      res.status(400).send({
+         message: "Content can not be empty!",
+      });
+   }
+
+   let patientData = req.body;
+
+   Patient.findByDocumentId(req.body.documentId, (err, data) => {
+      if (err !== null) {
+         console.log(patientData.nationalityId);
+         const patient = new Patient({
+            name: patientData.name,
+            enName: patientData.enName,
+            email: patientData.email,
+            gender: patientData.gender,
+            dob: patientData.dob,
+            address: patientData.address,
+            phone: patientData.phone,
+            weight: patientData.weight,
+            height: patientData.height,
+            relationship: patientData.relationship,
+            nationalityId: patientData.nationalityId,
+            documentId: patientData.documentId,
+            smoker: patientData.smoker,
+            fasting: patientData.fasting,
+            legal: patientData.legal,
+            munaId: patientData.munaId,
+            certificateNo: patientData.certificateNo,
+            createdBy: patientData.createdBy,
+         });
+
+         Patient.create(patient, (err, data) => {
+            if (err) {
+               res.status(500).send({
+                  message:
+                     err.message ||
+                     "Some error occurred while creating the patient.",
+               });
+            } else {
+               var base64Data = req.body.patientPhoto.replace(
+                  /^data:image\/jpeg;base64,/,
+                  ""
+               );
+
+               require("fs").writeFile(
+                  `./app/photos/${req.body.photoName}`,
+                  base64Data,
+                  "base64",
+                  function (err) {
+                     if (err) {
+                        console.log(err);
+                     } else {
+                        const photo = new Photo({
+                           photoPath: `image/${req.body.photoName}`,
+                           patientId: data.id,
+                           photoType: 0,
+                        });
+
+                        Photo.create(photo, (err, dataPhoto) => {
+                           if (err)
+                              res.status(500).send({
+                                 message:
+                                    err.message ||
+                                    "Some error occurred while upload the photo.",
+                              });
+                           else {
+                              var base64Data = req.body.patientDocument.replace(
+                                 /^data:image\/jpeg;base64,/,
+                                 ""
+                              );
+
+                              require("fs").writeFile(
+                                 `./app/documents/${req.body.documentName}`,
+                                 base64Data,
+                                 "base64",
+                                 function (err) {
+                                    if (err) {
+                                       console.log(err);
+                                    } else {
+                                       const photo = new Photo({
+                                          photoPath: `documents/${req.body.documentName}`,
+                                          patientId: data.id,
+                                          photoType: 1,
+                                       });
+
+                                       Photo.create(photo, (err, dataPhoto) => {
+                                          if (err)
+                                             res.status(500).send({
+                                                message:
+                                                   err.message ||
+                                                   "Some error occurred while upload the photo.",
+                                             });
+                                       });
+                                    }
+                                 }
+                              );
+                           }
+                        });
+                     }
+                  }
+               );
             }
          });
       } else {
@@ -548,6 +666,50 @@ exports.findTestPhoto = async (req, res) => {
    }
 };
 
+exports.findByInfo = (req, res) => {
+   Patient.getByInfo(req.query.search, (err, data) => {
+      if (err) {
+         if (err.kind === "not_found") {
+            res.status(404).send({
+               message: `Not found patient with name ${req.query.search}.`,
+            });
+         } else {
+            res.status(500).send({
+               message:
+                  "Error retrieving patient with name " + req.query.search,
+            });
+         }
+      } else
+         res.send(
+            data.map((pat) => {
+               return {
+                  idPatient: pat.idPatient,
+                  name: pat.name,
+                  enName: pat.enName,
+                  email: pat.email,
+                  gender: pat.gender,
+                  dob: pat.dob,
+                  address: pat.address,
+                  phone: pat.phone,
+                  weight: pat.weight,
+                  height: pat.height,
+                  relationship: pat.relationship,
+                  nationalityId: pat.nationalityId,
+                  nationalName: pat.nationalName,
+                  documentId: pat.documentId,
+                  smoker: pat.smoker,
+                  fasting: pat.fasting,
+                  legal: pat.legal,
+                  munaId: pat.munaId,
+                  certificateNo: pat.certificateNo,
+                  createdAt: pat.createdAt,
+                  imagePath: pat.imagePath,
+               };
+            })
+         );
+   });
+};
+
 exports.findOne = (req, res) => {
    Patient.findById(req.params.id, (err, data) => {
       if (err) {
@@ -594,7 +756,9 @@ exports.findPatientInformation = (req, res) => {
    let page = req.query.page;
    var numPerPage = req.query.number;
    var skip = (page - 1) * numPerPage;
+
    var limit = skip + "," + numPerPage;
+   console.log(req.query.number);
    Patient.findAllPatientData(numPerPage, limit, (err, data) => {
       if (err) {
          res.status(500).send({

@@ -3,6 +3,8 @@ module.exports = (app) => {
 
    app.post("/api/addPatient", patient.create);
 
+   app.post("/api/addPatientForPhone", patient.createForPhone);
+
    app.get("/api/allPatients", patient.findAll);
 
    app.get("/api/patients", patient.findPatientInformation);
@@ -12,6 +14,8 @@ module.exports = (app) => {
    app.post("/api/certificateResult", patient.findTestPhoto);
 
    app.get("/api/patient/:id", patient.findOne);
+
+   app.get("/api/findPatient", patient.findByInfo);
 
    app.put("/api/patient/:id", patient.update);
 
@@ -24,8 +28,9 @@ module.exports = (app) => {
    app.delete("/api/patients", patient.deleteAll);
 };
 
-// // CHECK IF PASSPORT EXISTS
-// axios.get('https://api.munahealth.com/identities?filter[passport]=' + this.data.documentId).then(async res => {
+// CHECK IF PASSPORT EXISTS
+// axios.get('https://api.munahealth.com/identities?filter[passport]=' + this.data.documentId)
+// .then(async res => {
 //    let ptnt = res.data.data;
 //    if (ptnt.length > 0) {
 //     this.data.munaId = ptnt[0].attributes.address
@@ -44,34 +49,3 @@ module.exports = (app) => {
 //  }).finally(async () => {
 //   await loading.dismiss();
 //  });
-
-// } else {
-//   this.saveToDb();
-//   await loading.dismiss();
-// }
-
-// }
-
-// data = {
-//    name: "",
-//    enName: "",
-//    gender: null,
-//    address: "...",
-//    dob: null,
-//    phone: null,
-//    weight: 0,
-//    height: 0,
-//    relationship: 0,
-//    nationalityId: 0,
-//    documentId: null,
-//    email: "",
-//    smoker: 0,
-//    fasting: 0,
-//    munaId: null,
-//    certificateNo: null,
-//    legal: 1,
-//    createdBy: "1",
-//    documentPhoto: {
-//       photoPath: "",
-//    },
-// };

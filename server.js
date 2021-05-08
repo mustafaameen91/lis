@@ -15,11 +15,8 @@ let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
 // let apiUrl = "https://api.munahealth.com";
 // let apiTestUrl = "https://api.staging.munahealth.com";
 
-// var execs = require("child_process").exec;
-// var child = execs(" mysqldump -u root -p[] [lis] > dumpfilename.sql");
-
 exec(
-   `bash HGate-start.sh --private="${private_key}" --public="${public_key}" --address="0.0.0.0:5555" `,
+   `bash HGate-start.sh --private="${private_key}" --public="${public_key}"  --address="0.0.0.0:5555" `,
    (error, stdout, stderr) => {
       console.log(stdout);
       console.log(stderr);

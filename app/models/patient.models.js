@@ -37,6 +37,27 @@ Patient.create = (newPatient, result) => {
    });
 };
 
+Patient.getByInfo = (search, result) => {
+   sql.query(
+      `SELECT *  FROM patient JOIN nationality  ON nationality.idNationality = patient.nationalityId WHERE patient.name LIKE  '%${search}%' OR patient.enName LIKE '%${search}%' OR patient.documentId LIKE '%${search}%'`,
+      (err, res) => {
+         if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+         }
+
+         if (res.length) {
+            console.log("found patient: ", res);
+            result(null, res);
+            return;
+         }
+
+         result({ kind: "not_found" }, null);
+      }
+   );
+};
+
 Patient.findById = (patientId, result) => {
    sql.query(
       `SELECT * FROM patient JOIN nationality LEFT JOIN photo ON photo.patientId = patient.idPatient AND nationality.idNationality = patient.nationalityId WHERE patient.idPatient = ${patientId}`,
@@ -95,6 +116,7 @@ Patient.findAllPatientData = (numPerPage, limit, result) => {
 };
 
 Patient.findByDocumentId = (documentId, result) => {
+   console.log(documentId);
    sql.query(
       `SELECT * FROM patient WHERE documentId = '${documentId}'`,
       (err, res) => {

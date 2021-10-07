@@ -9,8 +9,8 @@ const { exec } = require("child_process");
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
-let private_key = "SCT2C22KSURLOXBEQJFQN6APITKIXUUSZLCMYWLZ6K735QODLPKYVR7R";
-let public_key = "GDS2GDKKUTLO23UWNRHRXRYSX7AGTD6TZME2K6PTPH3SHBPWAQ6VQPL2";
+let private_key = "SCQAL5A2KWNCUD3CAXS6PW7UVT3DHIGQTQADZ2XPNIZJ7PX2FDGDGGIE";
+let public_key = "GBYSZ2A5VAMRNGXPOJ66QJTK7HEZHH3TREAHDLAAUTI3RJIP5FPSMPOG";
 
 // let apiUrl = "https://api.munahealth.com";
 // let apiTestUrl = "https://api.staging.munahealth.com";

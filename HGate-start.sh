@@ -7,7 +7,7 @@ EX_WARNING=2
 EX_ERROR=1
 
 config=".hgate.yaml"
-apiHost="https://api.munahealth.com"
+apiHost="https://api.iraqmosafer.munahealth.com"
 address=
 publicKey=""
 privateKey=""
@@ -65,4 +65,4 @@ docker run -d --name tokend-hgate \
   --env KV_VIPER_FILE=/config.yaml \
   --volume "$(pwd)/${config}":/config.yaml \
   --publish "${address:-"127.0.0.1:5555"}:80" \
-  tokend/hgate:1.1.10-m run
+  tokend/hgate:1.1.12-m run

@@ -41,11 +41,8 @@ exports.create = (req, res) => {
 
    let patientData = JSON.parse(req.body.patient);
 
-   console.log(patientData);
-
    Patient.findByDocumentId(req.body.patient.documentId, (err, data) => {
       if (err != null) {
-         console.log(patientData.nationalityId);
          const patient = new Patient({
             name: patientData.name,
             enName: patientData.enName,
@@ -617,9 +614,8 @@ exports.findTestPhoto = async (req, res) => {
                         });
                      else {
                         try {
-                           let patientPhoto = req.body.patientPhoto.split(
-                              "/"
-                           )[1];
+                           let patientPhoto =
+                              req.body.patientPhoto.split("/")[1];
                            let dataForSend = {
                               idCertificateDocument: data.idCertificateDocument,
                               patientResultId: data.patientResultId,

@@ -2,7 +2,7 @@
 //offline mysql password : Qweasdzxc
 module.exports = {
    HOST: "localhost",
-   USER: "watanilab",
+   USER: "watanii",
    PASSWORD: "Ww123123!@",
    DB: "lis",
    PORT: 3306,
